@@ -1,20 +1,38 @@
-import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
+import { useContext } from 'react';
+
+// Context
+import { UserContext } from '../context/UserContext';
+
+// Components
+import AuthButtons from "./AuthButtons";
+import UserButtons from "./UserButtons";
+import Logo from './Logo';
 
 function Navbar() {
-  return (
-    <nav className="flex select-none items-center justify-between border-b-2 border-gray-200 py-4 px-4 sm:px-12 lg:px-25">
-        <h1 className='font-bold text-lg sm:text-2xl'><Link to='/'>Mini<span className="text-green-600">Blog</span></Link></h1>
+  // Context
+  const { user, logoutUser } = useContext(UserContext);
 
-        <div className="flex gap-2 sm:gap-3">
-            <button className='text-black font-semibold text-md rounded-md px-3 h-8 
-            cursor-pointer hover:text-green-600 duration-200'>
-                <Link to="/account?mode=login">Sign In</Link>
-            </button>
-            <button className='text-black font-semibold text-md rounded-md px-3 h-8 
-            cursor-pointer hover:text-green-600 duration-200'>
-                <Link to="/account?mode=register">Sign Up</Link>
-            </button>
-        </div>
+  // Navigate
+  const navigate = useNavigate();
+
+  async function handleLogout() {
+    await logoutUser();
+
+    navigate('/')
+  }
+
+  return (
+    <nav 
+    className="flex select-none items-center justify-between 
+    border-b-2 border-gray-200 py-4 px-4 sm:px-12 lg:px-25">
+        <Logo />
+
+        {!user 
+        ? <AuthButtons /> 
+        : <UserButtons 
+          handleLogout={handleLogout} 
+        />}
     </nav>
   )
 }

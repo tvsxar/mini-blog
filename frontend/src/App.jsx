@@ -1,11 +1,12 @@
 import AppRouter from "./components/AppRouter"
+import UserProvider from './context/UserContext'
 
 function App() {
 
   return (
-    <div>
+    <UserProvider>
       <AppRouter />
-    </div>
+    </UserProvider>
   )
 }
 
