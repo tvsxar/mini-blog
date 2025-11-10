@@ -5,6 +5,7 @@ const connectDB = require('./config/db')
 
 // Routes
 const userRoutes = require('./routes/userRoutes');
+const postRoutes = require('./routes/postRoutes');
 
 // Setting up environment variables
 require('dotenv').config();
@@ -26,6 +27,7 @@ app.use(cookieParser());
 
 // Connect routes with routers
 app.use('/api/auth', userRoutes);
+app.use('/api/posts', postRoutes);
 
 
 app.get('/', (req, res) => {
