@@ -4,7 +4,9 @@ const cloudinary = require('../utils/cloudinary');
 // Controller for getting all posts
 async function getAllPosts(req, res) {
     try {
-        const posts = await Post.find().sort({ createdAt: -1 });
+        const posts = await Post.find()
+            .populate('userId', 'username')
+            .sort({ createdAt: -1 });
 
         res.status(200).json({message: 'Posts retrieved', posts});
     } catch (error) {
@@ -23,19 +25,19 @@ async function addPost(req, res) {
             return res.status(400).json({ message: "Title, summary and content are required" });
         }
 
-        if (req.file) {
-            const result = await cloudinary.uploader.upload(req.file.path, {
-                folder: 'miniBlogPosts'
-            })
-
-            imageUrl = result.secure_url;
+        if (!req.file) {
+            return res.status(400).json({ message: "Image is required" });
         }
+
+        const result = await cloudinary.uploader.upload(req.file.path, {
+            folder: 'miniBlogPosts'
+        });
 
         const newPost = await Post.create({
             title, 
             summary,
             content,
-            imageUrl,
+            imageUrl: result.secure_url,
             userId: req.user._id
         });
         await newPost.save();
@@ -50,7 +52,7 @@ async function addPost(req, res) {
 // Controller for getting post
 async function getPost(req, res) {
     try {
-        const post = await Post.findById(req.params.id);
+        const post = await Post.findById(req.params.id).populate('userId', 'username');
 
         if(!post) return res.status(404).json({ message: "Post not found" });
 
