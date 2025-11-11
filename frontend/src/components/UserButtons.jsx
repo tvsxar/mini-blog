@@ -1,9 +1,11 @@
-function UserButtons() {
+import { Link } from 'react-router-dom';
+
+function UserButtons({ handleLogout }) {
   return (
     <div className="flex gap-2 sm:gap-3">
         <button className='text-black font-semibold text-md rounded-md px-3 h-8 
         cursor-pointer hover:text-green-600 duration-200'>
-            Create post
+            <Link to='/post/new'>Create post</Link>
         </button>
 
         <button onClick={handleLogout}
