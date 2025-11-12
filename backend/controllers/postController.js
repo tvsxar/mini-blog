@@ -1,12 +1,10 @@
 const Post = require('../models/postModel');
-const cloudinary = require('../utils/cloudinary');
+const uploadToCloudinary = require('../utils/cloudinary');
 
 // Controller for getting all posts
 async function getAllPosts(req, res) {
     try {
-        const posts = await Post.find()
-            .populate('userId', 'username')
-            .sort({ createdAt: -1 });
+        const posts = await Post.find().sort({ createdAt: -1 });
 
         res.status(200).json({message: 'Posts retrieved', posts});
     } catch (error) {
@@ -19,7 +17,6 @@ async function getAllPosts(req, res) {
 async function addPost(req, res) {
     try {
         const { title, summary, content } = req.body;
-        let imageUrl = '';
 
         if (!title || !summary || !content) {
             return res.status(400).json({ message: "Title, summary and content are required" });
@@ -29,18 +26,16 @@ async function addPost(req, res) {
             return res.status(400).json({ message: "Image is required" });
         }
 
-        const result = await cloudinary.uploader.upload(req.file.path, {
-            folder: 'miniBlogPosts'
-        });
+        const result = await uploadToCloudinary(req.file.buffer);
 
-        const newPost = await Post.create({
+        let newPost = await Post.create({
             title, 
             summary,
             content,
             imageUrl: result.secure_url,
-            userId: req.user._id
+            userId: req.user._id,
+            username: req.user.username
         });
-        await newPost.save();
 
         res.status(201).json({ message: 'Post created', post: newPost })
     } catch (error) {
@@ -52,7 +47,7 @@ async function addPost(req, res) {
 // Controller for getting post
 async function getPost(req, res) {
     try {
-        const post = await Post.findById(req.params.id).populate('userId', 'username');
+        const post = await Post.findById(req.params.id);
 
         if(!post) return res.status(404).json({ message: "Post not found" });
 

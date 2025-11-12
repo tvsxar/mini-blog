@@ -5,7 +5,8 @@ const postSchema = new mongoose.Schema({
     summary: { type: String, required: true },
     content: { type: String, required: true },
     imageUrl: { type: String, required: true },
-    userId: { type:  mongoose.Schema.Types.ObjectId, required: true }
+    userId: { type:  mongoose.Schema.Types.ObjectId, required: true },
+    username: { type: String, required: true }
 }, { timestamps: true })
 
 const Post = mongoose.model('Post', postSchema);
