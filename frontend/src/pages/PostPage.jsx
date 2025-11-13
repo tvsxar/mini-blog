@@ -1,56 +1,50 @@
+import { useContext, useEffect } from 'react';
+import { PostsContext } from '../context/PostsContext';
+import { UserContext } from '../context/UserContext';
+import { useParams, useNavigate } from 'react-router-dom';
+import PostInfo from '../components/PostInfo';
+
 function PostPage() {
+  // Context & id from params
+  const { currentPost, fetchCurrentPost, postLoading, deletePost } = useContext(PostsContext);
+  const { user } = useContext(UserContext);
+  const { id } = useParams();
+  const isCurrentUser = user && currentPost && user._id === currentPost.userId;
+
+  // Navigate
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchCurrentPost(id);
+  }, [id])
+
+  async function handleDelete(e) {
+    e.preventDefault();
+
+    const success = await deletePost(currentPost._id);
+
+    if(success) {
+        navigate('/');
+    }
+  }
+
+  if (postLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p className="text-gray-500 text-lg">Loading post...</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="px-4 sm:px-12 lg:px-25 xl:px-25 py-8 sm:py-12 flex flex-col gap-8 items-center">
-        <h2 className="font-bold text-black text-2xl sm:text-3xl md:text-3xl lg:text-4xl">
-            Full-House Baterry backup coming later this year
-        </h2>
-
-        <div className="text-center">
-            <p className='font-medium text-sm text-gray-400'>2025-08-06</p>
-
-            <p className="text-black/90 text-md font-semibold">by @user</p>
-        </div>
-
-        <div className="">
-            <img className="rounded-xl"
-            src="https://techcrunch.com/wp-content/uploads/2024/06/3.-Clicks-BumbleBee-and-London-Sky.jpg?resize=2048,1365" alt="" />
-        </div>
-
-        <p className="text-md sm:text-lg text-gray-700">Greonevnoronubve orebonronboerb eojrboneouhrbouhebhoure bjoierboeourbojeurbe brejoibeohoubre rjooejbroueohubohuebohue
-            greonevnoronubve! Orebonronboerb eojrboneouhrbouhebhoure bjoierboeourbojeurbe brejoibeohoubre rjooejbroueohubohuebohue
-            greonevnoronubve orebonronboerb eojrboneouhrbouhebhoure bjoierboeourbojeurbe brejoibeohoubre bjoierboeourbojeurbe brejoibeohoubre 
-            bjoierboeourbojeurbe brejoibeohoubre rjooejbroueohubohuebohuerjooejbroueohubohuebohuerjooejbroueohubohuebohue 
-            greonevnoronubve! Orebonronboerb eojrboneouhrbouhebhoure bjoierboeourbojeurbe brejoibeohoubre rjooejbroueohubohuebohue
-            greonevnoronubve orebonronboerb eojrboneouhrbouhebhoure bjoierboeourbojeurbe brejoibeohoubre bjoierboeourbojeurbe brejoibeohoubre 
-            bjoierboeourbojeurbe brejoibeohoubre rjooejbroueohubohuebohuerjooejbroueohubohuebohuerjooejbroueohubohuebohue 
-            <br />
-            greonevnoronubve! Orebonronboerb eojrboneouhrbouhebhoure bjoierboeourbojeurbe brejoibeohoubre rjooejbroueohubohuebohue
-            greonevnoronubve orebonronboerb eojrboneouhrbouhebhoure bjoierboeourbojeurbe brejoibeohoubre bjoierboeourbojeurbe brejoibeohoubre 
-            bjoierboeourbojeurbe brejoibeohoubre rjooejbroueohubohuebohuerjooejbroueohubohuebohuerjooejbroueohubohuebohue 
-
-            greonevnoronubve! Orebonronboerb eojrboneouhrbouhebhoure bjoierboeourbojeurbe brejoibeohoubre rjooejbroueohubohuebohue
-            greonevnoronubve orebonronboerb eojrboneouhrbouhebhoure bjoierboeourbojeurbe brejoibeohoubre bjoierboeourbojeurbe brejoibeohoubre 
-            bjoierboeourbojeurbe brejoibeohoubre rjooejbroueohubohuebohuerjooejbroueohubohuebohuerjooejbroueohubohuebohue 
-            greonevnoronubve! Orebonronboerb eojrboneouhrbouhebhoure bjoierboeourbojeurbe brejoibeohoubre rjooejbroueohubohuebohue
-            greonevnoronubve orebonronboerb eojrboneouhrbouhebhoure bjoierboeourbojeurbe brejoibeohoubre bjoierboeourbojeurbe brejoibeohoubre 
-            <br />
-            greonevnoronubve! Orebonronboerb eojrboneouhrbouhebhoure bjoierboeourbojeurbe brejoibeohoubre rjooejbroueohubohuebohue
-            greonevnoronubve orebonronboerb eojrboneouhrbouhebhoure bjoierboeourbojeurbe brejoibeohoubre bjoierboeourbojeurbe brejoibeohoubre 
-            bjoierboeourbojeurbe brejoibeohoubre rjooejbroueohubohuebohuerjooejbroueohubohuebohuerjooejbroueohubohuebohue 
-            greonevnoronubve! Orebonronboerb eojrboneouhrbouhebhoure bjoierboeourbojeurbe brejoibeohoubre rjooejbroueohubohuebohue
-            greonevnoronubve orebonronboerb eojrboneouhrbouhebhoure bjoierboeourbojeurbe brejoibeohoubre bjoierboeourbojeurbe brejoibeohoubre 
-            bjoierboeourbojeurbe brejoibeohoubre rjooejbroueohubohuebohuerjooejbroueohubohuebohuerjooejbroueohubohuebohue 
-            greonevnoronubve! Orebonronboerb eojrboneouhrbouhebhoure bjoierboeourbojeurbe brejoibeohoubre rjooejbroueohubohuebohue
-            greonevnoronubve orebonronboerb eojrboneouhrbouhebhoure bjoierboeourbojeurbe brejoibeohoubre bjoierboeourbojeurbe brejoibeohoubre 
-            bjoierboeourbojeurbe brejoibeohoubre rjooejbroueohubohuebohuerjooejbroueohubohuebohuerjooejbroueohubohuebohue 
-            <br />
-            greonevnoronubve! Orebonronboerb eojrboneouhrbouhebhoure bjoierboeourbojeurbe brejoibeohoubre rjooejbroueohubohuebohue
-            greonevnoronubve orebonronboerb eojrboneouhrbouhebhoure bjoierboeourbojeurbe brejoibeohoubre bjoierboeourbojeurbe brejoibeohoubre 
-            bjoierboeourbojeurbe brejoibeohoubre rjooejbroueohubohuebohuerjooejbroueohubohuebohuerjooejbroueohubohuebohue 
-            greonevnoronubve! Orebonronboerb eojrboneouhrbouhebhoure bjoierboeourbojeurbe brejoibeohoubre rjooejbroueohubohuebohue
-            greonevnoronubve orebonronboerb eojrboneouhrbouhebhoure bjoierboeourbojeurbe brejoibeohoubre bjoierboeourbojeurbe brejoibeohoubre 
-            bjoierboeourbojeurbe brejoibeohoubre rjooejbroueohubohuebohuerjooejbroueohubohuebohuerjooejbroueohubohuebohue
-        </p>
+    <div 
+    className="px-4 sm:px-6 md:px-12 lg:px-24 
+    xl:px-32 py-8 sm:py-12 max-w-xl sm:max-w-3xl 
+    md:max-w-4xl lg:max-w-7xl mx-auto">
+        <PostInfo 
+        isCurrentUser={isCurrentUser}
+        currentPost={currentPost}
+        handleDelete={handleDelete} />
     </div>
   )
 }
