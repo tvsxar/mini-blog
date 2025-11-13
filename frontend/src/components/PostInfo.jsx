@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-function PostInfo({ isCurrentUser, currentPost, handleDelete }) {
+function PostInfo({ isCurrentUser, currentPost, handleDelete, postError }) {
   return (
     <>
     <div className="w-full max-w-4xl flex sm:flex-row justify-between items-start sm:items-center mb-8 sm:mb-10 gap-3">
@@ -10,6 +10,12 @@ function PostInfo({ isCurrentUser, currentPost, handleDelete }) {
             ← Back to posts
         </Link>
     </div>
+
+    {postError && (
+      <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded mb-4">
+        {postError}
+      </div>
+    )}
 
     <div className="flex flex-col gap-8 items-center">
 
