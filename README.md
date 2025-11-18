@@ -35,7 +35,7 @@ Frontend is built with **React (Vite)** and styled with **Tailwind CSS**.
 
 ## Live Demo
 
-Try it online via our [Live Demo](https://mini-blog-frontend-s7ok.onrender.com)!
+Try it online via our [Live Demo](https://mini-blog-backend-6rg8.onrender.com)!
 
 ---
 
