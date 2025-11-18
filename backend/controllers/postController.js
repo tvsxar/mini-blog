@@ -41,6 +41,7 @@ async function addPost(req, res) {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Something went wrong" });
+        console.error(error.stack);
     }
 }
 
@@ -90,9 +91,7 @@ async function editPost(req, res) {
         const { title, summary, content } = req.body;
 
         if (req.file) {
-            const result = await cloudinary.uploader.upload(req.file.path, {
-                folder: "miniBlogPosts"
-            });
+            const result = await uploadToCloudinary(req.file.buffer);
             post.imageUrl = result.secure_url;
         }
 
