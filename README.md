@@ -124,6 +124,11 @@ npm install axios tailwindcss
 npm run dev
 ```
 
+Frontend .env variables:
+```bash
+VITE_API_URL=http://localhost:1111
+```
+
 Frontend will be available at:
 http://localhost:5173
 
@@ -133,14 +138,17 @@ http://localhost:5173
 
 ```
 mini-blog/
+├─ docker-compose.yml
 ├─ backend/
 │  ├─ config/db.js
+│  ├─ Dockerfile
 │  ├─ models/
 │  │  └─ post.model.js
 │  ├─ routes/
 │  │  └─ postRoutes.js
 │  └─ server.js
 ├─ frontend/
+│  ├─ Dockerfile
 │  ├─ src/
 │  │  ├─ components/
 │  │  │  ├─ PostForm.jsx
